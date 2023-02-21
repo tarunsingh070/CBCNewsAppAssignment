@@ -1,4 +1,4 @@
-package com.tarun.cbcnewsappassignment
+package com.tarun.cbcnewsappassignment.viewmodel
 
 import androidx.lifecycle.ViewModel
 
