@@ -10,7 +10,7 @@ import retrofit2.http.Query
 interface CBCNewsApiService {
     /**
      * Fetches a list of [Article].
-     * @param page The page number to fetch the list of [Article] from
+     * @param page The page number to fetch the list of [Article] from.
      */
     @GET("items?lineupSlug=news")
     suspend fun fetchNewsArticles(@Query("page") page: Int): List<Article>

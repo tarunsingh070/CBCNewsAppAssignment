@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName
  */
 data class Article(val id: Int,
                    val title: String,
-                   @SerializedName("published_at") val publishedAt: Long,
-                   @SerializedName("updated_at") val updatedAt: Long,
-                   @SerializedName("type") val type: String,
+                   val publishedAt: Long,
+                   val updatedAt: Long,
+                   val type: String,
                    @SerializedName("typeAttributes") val attributes: TypeAttributes)
