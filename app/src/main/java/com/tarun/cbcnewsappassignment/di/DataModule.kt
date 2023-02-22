@@ -1,8 +1,11 @@
 package com.tarun.cbcnewsappassignment.di
 
+import androidx.room.Room
 import com.tarun.cbcnewsappassignment.api.CBCNewsApiService
 import com.tarun.cbcnewsappassignment.data.CBCNewsRepository
+import com.tarun.cbcnewsappassignment.db.ArticleDatabase
 import okhttp3.OkHttpClient
+import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -27,4 +30,19 @@ val dataModule = module {
     }
 
     single { GsonConverterFactory.create() }
+
+    single {
+        synchronized(this) {
+            Room.databaseBuilder(
+                androidContext(),
+                ArticleDatabase::class.java,
+                "cbc_news_database"
+            )
+                // Wipes and rebuilds instead of migrating if no Migration object.
+                .fallbackToDestructiveMigration()
+                .build()
+        }
+    }
+
+    factory { get<ArticleDatabase>().articleDao() }
 }
