@@ -50,6 +50,14 @@
             app:layout_constraintTop_toBottomOf="@+id/article_image"
             tools:text="News article heading"/>
 
+        <ImageView
+            android:id="@+id/article_type_icon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/article_heading"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
         <TextView
             android:id="@+id/date_published"
             android:layout_width="0dp"
@@ -58,8 +66,8 @@
             android:textColor="?android:textColorPrimary"
             android:textSize="@dimen/date_published_size"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/article_heading"
+            app:layout_constraintBottom_toBottomOf="parent"
             tools:ignore="UnusedAttribute"
             tools:text="12 minutes ago"/>
     </androidx.constraintlayout.widget.ConstraintLayout>

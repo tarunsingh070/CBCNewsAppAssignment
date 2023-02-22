@@ -28,7 +28,7 @@ class SharedNewsViewModel : ViewModel(), KoinComponent {
     val isNetworkConnectivityAvailable: LiveData<Boolean> = _isNetworkConnectivityAvailable
 
     // This keeps a track of what page will be loaded.
-    var page: Int = 1
+    private var page: Int = 1
 
     init {
         monitorNetworkStatus()

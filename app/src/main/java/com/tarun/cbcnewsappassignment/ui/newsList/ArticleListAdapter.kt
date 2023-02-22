@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.tarun.cbcnewsappassignment.R
 import com.tarun.cbcnewsappassignment.databinding.ViewHolderArticleBinding
 import com.tarun.cbcnewsappassignment.model.Article
 
@@ -52,6 +53,18 @@ class ArticleListAdapter :
             loadImage(article.attributes.imageUrl)
             binding.articleHeading.text = article.title
             binding.datePublished.text = getPublishedAtTimeString(article.publishedAt)
+            binding.articleTypeIcon.setImageResource(getArticleTypeIcon(article))
+        }
+
+        /**
+         * Returns the icon for the corresponding article type. Returns an invalid resource ID for
+         * unsupported types.
+         * @param article The article to get the icon for.
+         */
+        private fun getArticleTypeIcon(article: Article): Int = when (article.type) {
+            Article.ArticleType.STORY.type -> R.drawable.ic_story
+            Article.ArticleType.VIDEO.type -> R.drawable.ic_video
+            else -> 0
         }
 
         private fun loadImage(imageUrl: String) {
