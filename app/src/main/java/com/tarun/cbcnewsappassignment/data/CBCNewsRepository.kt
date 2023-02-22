@@ -15,7 +15,12 @@ class CBCNewsRepository : KoinComponent {
     private val apiService: CBCNewsApiService by inject()
 
     private val articleDao: ArticleDao by inject()
+
+    // Keep 3 de-coupled article lists based on the type for the independent operation of the
+    // 3 fragments showing the filtered articles.
     val articles: LiveData<List<Article>> by lazy { articleDao.getArticles() }
+    val storyArticles: LiveData<List<Article>> by lazy { articleDao.getArticlesByType(Article.ArticleType.STORY.type) }
+    val videoArticles: LiveData<List<Article>> by lazy { articleDao.getArticlesByType(Article.ArticleType.VIDEO.type) }
 
     /**
      * Fetches the list of articles from API.

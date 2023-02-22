@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.tarun.cbcnewsappassignment.databinding.FragmentNewsListBinding
+import com.tarun.cbcnewsappassignment.model.Article
 import com.tarun.cbcnewsappassignment.viewmodel.SharedNewsViewModel
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 
@@ -19,13 +20,13 @@ private const val ARG_ARTICLE_TYPE = "article_type"
  */
 class NewsListFragment : Fragment() {
     private lateinit var ui: FragmentNewsListBinding
+    private lateinit var articleType: String
     private val viewModel: SharedNewsViewModel by activityViewModel()
-    private var articleType: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            articleType = it.getString(ARG_ARTICLE_TYPE)
+            articleType = it.getString(ARG_ARTICLE_TYPE) ?: Article.ArticleType.NONE.type
         }
     }
 
@@ -44,15 +45,28 @@ class NewsListFragment : Fragment() {
     }
 
     /**
-     * Set up and attach the [ArticleListAdapter] to the recyclerview and start observing the
-     * live articles list to be fed into the adapter automatically whenever there's a change in it.
+     * Set up and attach the [ArticleListAdapter] to the recyclerview.
      */
     private fun setupAdapter() {
         val adapter = ArticleListAdapter()
         ui.articlesRecyclerView.adapter = adapter
         ui.articlesRecyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        viewModel.articles.observe(viewLifecycleOwner) {
+        observeArticlesListDataSource(adapter)
+    }
+
+    /**
+     * Start observing the live articles list to be fed into the adapter automatically whenever
+     * there's an update in it.
+     */
+    private fun observeArticlesListDataSource(adapter: ArticleListAdapter) {
+        val articlesLiveData = when (requireArguments().getString(ARG_ARTICLE_TYPE)) {
+            Article.ArticleType.STORY.type -> viewModel.storyArticles
+            Article.ArticleType.VIDEO.type -> viewModel.videoArticles
+            else -> viewModel.headlineArticles
+        }
+
+        articlesLiveData.observe(viewLifecycleOwner) {
             // Update the cached copy of articles in the adapter.
             it.let {
                 adapter.submitList(it)
@@ -69,7 +83,7 @@ class NewsListFragment : Fragment() {
          * @return A new instance of fragment NewsListFragment.
          */
         @JvmStatic
-        fun newInstance(articleType: String? = null) =
+        fun newInstance(articleType: String) =
             NewsListFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_ARTICLE_TYPE, articleType)

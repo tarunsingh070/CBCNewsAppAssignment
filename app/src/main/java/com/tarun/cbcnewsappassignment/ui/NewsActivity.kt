@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.tarun.cbcnewsappassignment.R
 import com.tarun.cbcnewsappassignment.databinding.ActivityNewsBinding
+import com.tarun.cbcnewsappassignment.model.Article
 import com.tarun.cbcnewsappassignment.ui.newsList.NewsListFragment
 import com.tarun.cbcnewsappassignment.viewmodel.SharedNewsViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -24,7 +25,28 @@ class NewsActivity : AppCompatActivity() {
 
         observeNetworkConnectivityStatus()
 
-        setFragment(NewsListFragment.newInstance())
+        setupBottomNavView()
+    }
+
+    /**
+     * Sets up the bottom navigation view.
+     */
+    private fun setupBottomNavView() {
+        val headlinesFragment = NewsListFragment.newInstance(Article.ArticleType.NONE.type)
+        val storiesFragment = NewsListFragment.newInstance(Article.ArticleType.STORY.type)
+        val videosFragment = NewsListFragment.newInstance(Article.ArticleType.VIDEO.type)
+
+        ui.navView.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.headlines -> setFragment(headlinesFragment)
+                R.id.story -> setFragment(storiesFragment)
+                R.id.video -> setFragment(videosFragment)
+            }
+            true
+        }
+
+        // Set the Headlines fragment initially.
+        setFragment(headlinesFragment)
     }
 
     private fun setFragment(fragment: Fragment) =

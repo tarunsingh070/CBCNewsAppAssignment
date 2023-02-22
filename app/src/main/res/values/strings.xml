@@ -1,5 +1,8 @@
 <resources>
-    <string name="app_name">CBCNewsAppAssignment</string>
+    <string name="app_name">CBC News Assignment</string>
 
     <string name="message_offline">You\'re viewing offline news.</string>
+    <string name="title_headlines">Headlines</string>
+    <string name="title_story">Story</string>
+    <string name="title_video">Video</string>
 </resources>

@@ -18,8 +18,10 @@ import org.koin.core.component.inject
 class SharedNewsViewModel : ViewModel(), KoinComponent {
     private val repository: CBCNewsRepository by inject()
 
-    // Live list of Articles to be shown in the list of news articles.
-    val articles: LiveData<List<Article>> by lazy { repository.articles }
+    // Live lists of Articles to be shown in the list of news articles.
+    val headlineArticles: LiveData<List<Article>> by lazy { repository.articles }
+    val storyArticles: LiveData<List<Article>> by lazy { repository.storyArticles }
+    val videoArticles: LiveData<List<Article>> by lazy { repository.videoArticles }
 
     // Live boolean which stores the current network connectivity status
     private var _isNetworkConnectivityAvailable: MutableLiveData<Boolean> = MutableLiveData()

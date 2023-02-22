@@ -82,7 +82,7 @@ class ArticleListAdapter :
     companion object {
         private val ARTICLES_COMPARATOR = object : DiffUtil.ItemCallback<Article>() {
             override fun areItemsTheSame(oldItem: Article, newItem: Article): Boolean {
-                return oldItem === newItem
+                return oldItem == newItem
             }
 
             override fun areContentsTheSame(oldItem: Article, newItem: Article): Boolean {
