@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.tarun.cbcnewsappassignment.R
 import com.tarun.cbcnewsappassignment.databinding.ActivityNewsBinding
+import com.tarun.cbcnewsappassignment.ui.newsList.NewsListFragment
 
 /**
  * Base activity for showing the fragments.
