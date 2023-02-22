@@ -1,13 +1,13 @@
 package com.tarun.cbcnewsappassignment.ui
 
 import android.os.Bundle
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.tarun.cbcnewsappassignment.R
 import com.tarun.cbcnewsappassignment.databinding.ActivityNewsBinding
 import com.tarun.cbcnewsappassignment.model.Article
 import com.tarun.cbcnewsappassignment.ui.newsList.NewsListFragment
+import com.tarun.cbcnewsappassignment.util.shouldShow
 import com.tarun.cbcnewsappassignment.viewmodel.SharedNewsViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -57,13 +57,8 @@ class NewsActivity : AppCompatActivity() {
     private fun observeNetworkConnectivityStatus() {
         viewModel.isNetworkConnectivityAvailable.observe(this) {
             // Show/hide offline view based on network connection status.
-            ui.offlineView.visibility = if (it) {
-                // Reload the articles
-                viewModel.reloadArticles()
-                View.GONE
-            } else {
-                View.VISIBLE
-            }
+            ui.offlineView.shouldShow(!it)
+            if (it) viewModel.networkConnectivityRestored()
         }
     }
 }

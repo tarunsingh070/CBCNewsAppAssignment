@@ -1,15 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/nested_scroll_view"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.newsList.NewsListFragment">
+    android:layout_height="match_parent">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/articles_recycler_view"
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nested_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:nestedScrollingEnabled="false"
-        tools:listitem="@layout/view_holder_article"/>
-</androidx.core.widget.NestedScrollView>
+        tools:context=".ui.newsList.NewsListFragment">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/articles_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:nestedScrollingEnabled="false"
+            tools:listitem="@layout/view_holder_article"/>
+    </androidx.core.widget.NestedScrollView>
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_centerInParent="true"/>
+
+    <TextView
+        android:id="@+id/no_articles_placeholder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/empty_list_placeholder_text"
+        android:textSize="16sp"
+        android:layout_centerInParent="true"/>
+
+    <TextView
+        android:id="@+id/error_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        android:padding="12dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:background="@android:color/holo_red_dark"/>
+</RelativeLayout>

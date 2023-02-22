@@ -11,7 +11,7 @@ import org.koin.core.component.inject
 /**
  * Repository class to handle the operation of retrieving the data requested.
  */
-class CBCNewsRepository : KoinComponent {
+class ArticleRepository : KoinComponent {
     private val apiService: CBCNewsApiService by inject()
 
     private val articleDao: ArticleDao by inject()
@@ -35,7 +35,7 @@ class CBCNewsRepository : KoinComponent {
             // Save articles to the Database
             result.let { articleDao.insert(it) }
         } catch (error: Throwable) {
-            throw FetchArticlesError("Unable to fetch articles", error)
+            throw FetchArticlesError("Unable to fetch articles.", error)
         }
     }
 

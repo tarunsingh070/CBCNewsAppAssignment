@@ -7,8 +7,10 @@ import android.view.ViewGroup
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.tarun.cbcnewsappassignment.R
 import com.tarun.cbcnewsappassignment.databinding.FragmentNewsListBinding
 import com.tarun.cbcnewsappassignment.model.Article
+import com.tarun.cbcnewsappassignment.util.shouldShow
 import com.tarun.cbcnewsappassignment.viewmodel.SharedNewsViewModel
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 
@@ -42,7 +44,9 @@ class NewsListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        observeLoadingStatus()
         setupAdapter()
+        setupErrorMessageView()
         monitorListScroll()
     }
 
@@ -72,6 +76,7 @@ class NewsListFragment : Fragment() {
             // Update the cached copy of articles in the adapter.
             it.let {
                 adapter.submitList(it)
+                ui.noArticlesPlaceholder.shouldShow(it.isEmpty())
             }
         }
     }
@@ -85,6 +90,44 @@ class NewsListFragment : Fragment() {
             val nestedScrollView = v as NestedScrollView
             if (scrollY == nestedScrollView.getChildAt(0).measuredHeight - nestedScrollView.measuredHeight) {
                 viewModel.userReachedEndOfList()
+            }
+        }
+    }
+
+    /**
+     * Observe the data loading status in order to show/hide the loader.
+     */
+    private fun observeLoadingStatus() {
+        viewModel.isLoadingData.observe(viewLifecycleOwner) {
+            // Update the cached copy of articles in the adapter.
+            it.let {
+                ui.progressBar.shouldShow(it)
+            }
+        }
+    }
+
+    /**
+     * Sets up the Error message view.
+     */
+    private fun setupErrorMessageView() {
+        ui.errorView.setOnClickListener {
+            viewModel.errorMessageTapped()
+            it.shouldShow(false)
+        }
+        observeErrorMessage()
+    }
+
+    /**
+     * Observe the data loading status in order to show/hide the loader.
+     */
+    private fun observeErrorMessage() {
+        viewModel.errorMsg.observe(viewLifecycleOwner) {
+            // Update the cached copy of articles in the adapter.
+            it.let {
+                with(ui.errorView) {
+                    shouldShow(it != null)
+                    text = getString(R.string.error_text, it)
+                }
             }
         }
     }

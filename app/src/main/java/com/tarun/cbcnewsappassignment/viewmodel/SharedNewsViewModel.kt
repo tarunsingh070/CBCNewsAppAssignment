@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.tarun.cbcnewsappassignment.data.CBCNewsRepository
+import com.tarun.cbcnewsappassignment.data.ArticleRepository
 import com.tarun.cbcnewsappassignment.data.FetchArticlesError
 import com.tarun.cbcnewsappassignment.model.Article
 import com.tarun.cbcnewsappassignment.util.NetworkMonitoringService
@@ -16,18 +16,26 @@ import org.koin.core.component.inject
  * The Viewmodel class which is shared between the NewsActivity and NewsListFragment.
  */
 class SharedNewsViewModel : ViewModel(), KoinComponent {
-    private val repository: CBCNewsRepository by inject()
+    private val repository: ArticleRepository by inject()
 
     // Live lists of Articles to be shown in the list of news articles.
     val headlineArticles: LiveData<List<Article>> by lazy { repository.articles }
     val storyArticles: LiveData<List<Article>> by lazy { repository.storyArticles }
     val videoArticles: LiveData<List<Article>> by lazy { repository.videoArticles }
 
-    // Live boolean which stores the current network connectivity status
+    // Live boolean which stores the current network connectivity status.
     private var _isNetworkConnectivityAvailable: MutableLiveData<Boolean> = MutableLiveData()
     val isNetworkConnectivityAvailable: LiveData<Boolean> = _isNetworkConnectivityAvailable
 
-    // This keeps a track of what page will be loaded.
+    // Live boolean indicating if data is currently being loaded or not.
+    private var _isLoadingData: MutableLiveData<Boolean> = MutableLiveData()
+    val isLoadingData: LiveData<Boolean> = _isLoadingData
+
+    // Live string to store error message that came as a result of failure to load data.
+    private var _errorMsg: MutableLiveData<String?> = MutableLiveData()
+    val errorMsg: LiveData<String?> = _errorMsg
+
+    // This keeps a track of what page should be loaded.
     private var page: Int = 1
 
     init {
@@ -44,6 +52,21 @@ class SharedNewsViewModel : ViewModel(), KoinComponent {
     }
 
     /**
+     * Handles the event when network connection has been rstored.
+     */
+    fun networkConnectivityRestored() {
+        reloadArticles()
+    }
+
+    /**
+     * Handles the event when user tapped the Error message view.
+     */
+    fun errorMessageTapped() {
+        reloadArticles()
+        _errorMsg.value = null
+    }
+
+    /**
      * Fetches the list of latest articles.
      * @param page The page number to be fetched
      */
@@ -54,7 +77,7 @@ class SharedNewsViewModel : ViewModel(), KoinComponent {
     /**
      * Reloads the list of latest articles using the same page number as was used last when offline.
      */
-    fun reloadArticles() = launchDataLoad {
+    private fun reloadArticles() = launchDataLoad {
         repository.fetchArticles(page)
     }
 
@@ -67,11 +90,12 @@ class SharedNewsViewModel : ViewModel(), KoinComponent {
     private fun launchDataLoad(block: suspend () -> Unit) {
         viewModelScope.launch {
             try {
+                _isLoadingData.value = true
                 block()
             } catch (error: FetchArticlesError) {
-                // Todo: Handle error
+                _errorMsg.value = error.message
             } finally {
-                // do something
+                _isLoadingData.value = false
             }
         }
     }

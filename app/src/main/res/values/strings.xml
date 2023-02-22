@@ -5,4 +5,6 @@
     <string name="title_headlines">Headlines</string>
     <string name="title_story">Story</string>
     <string name="title_video">Video</string>
+    <string name="empty_list_placeholder_text">It\'s very quiet here!</string>
+    <string name="error_text">%s Tap to retry.</string>
 </resources>

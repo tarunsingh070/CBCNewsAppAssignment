@@ -2,7 +2,7 @@ package com.tarun.cbcnewsappassignment.di
 
 import androidx.room.Room
 import com.tarun.cbcnewsappassignment.api.CBCNewsApiService
-import com.tarun.cbcnewsappassignment.data.CBCNewsRepository
+import com.tarun.cbcnewsappassignment.data.ArticleRepository
 import com.tarun.cbcnewsappassignment.db.ArticleDatabase
 import okhttp3.OkHttpClient
 import org.koin.android.ext.koin.androidContext
@@ -13,7 +13,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 private const val CBC_API_BASE_URL = "https://www.cbc.ca/aggregate_api/v1/"
 val dataModule = module {
 
-    single { CBCNewsRepository() }
+    single { ArticleRepository() }
 
     single<CBCNewsApiService> { get<Retrofit>().create(CBCNewsApiService::class.java) }
 
