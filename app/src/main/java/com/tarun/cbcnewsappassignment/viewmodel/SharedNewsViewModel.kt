@@ -36,6 +36,14 @@ class SharedNewsViewModel : ViewModel(), KoinComponent {
     }
 
     /**
+     * This method gets called when a user has reached the end of list while scrolling.
+     */
+    fun userReachedEndOfList() {
+        page++
+        fetchArticles(page)
+    }
+
+    /**
      * Fetches the list of latest articles.
      * @param page The page number to be fetched
      */

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nested_scroll_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.newsList.NewsListFragment">
@@ -11,4 +12,4 @@
         android:layout_height="match_parent"
         android:nestedScrollingEnabled="false"
         tools:listitem="@layout/view_holder_article"/>
-</FrameLayout>
+</androidx.core.widget.NestedScrollView>

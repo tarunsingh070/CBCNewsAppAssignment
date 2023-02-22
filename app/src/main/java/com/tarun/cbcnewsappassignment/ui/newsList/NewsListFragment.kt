@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.tarun.cbcnewsappassignment.databinding.FragmentNewsListBinding
@@ -42,6 +43,7 @@ class NewsListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupAdapter()
+        monitorListScroll()
     }
 
     /**
@@ -70,6 +72,19 @@ class NewsListFragment : Fragment() {
             // Update the cached copy of articles in the adapter.
             it.let {
                 adapter.submitList(it)
+            }
+        }
+    }
+
+    /**
+     * This method monitors the user's scrolling in order to load more data when user reaches
+     * the end of the list.
+     */
+    private fun monitorListScroll() {
+        ui.nestedScrollView.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY -> // on scroll change we are checking when users scroll as bottom.
+            val nestedScrollView = v as NestedScrollView
+            if (scrollY == nestedScrollView.getChildAt(0).measuredHeight - nestedScrollView.measuredHeight) {
+                viewModel.userReachedEndOfList()
             }
         }
     }
