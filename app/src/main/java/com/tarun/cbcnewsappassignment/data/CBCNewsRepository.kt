@@ -33,6 +33,13 @@ class CBCNewsRepository : KoinComponent {
             throw FetchArticlesError("Unable to fetch articles", error)
         }
     }
+
+    /**
+     * Delete all articles from the local database.
+     */
+    suspend fun deleteAllArticlesFromDatabase() {
+        articleDao.deleteAll()
+    }
 }
 
 class FetchArticlesError(message: String, cause: Throwable) : Throwable(message, cause)
