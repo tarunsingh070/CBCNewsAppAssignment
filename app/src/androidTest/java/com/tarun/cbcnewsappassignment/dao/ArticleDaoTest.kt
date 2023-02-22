@@ -58,7 +58,7 @@ class ArticleDaoTest {
 
     @Test
     @Throws(Exception::class)
-    fun insertAndGetArticles() = runBlocking {
+    fun testInsertAndGetArticlesOperation() = runBlocking {
         // Fetch the 3 articles inserted earlier and do a data integrity check.
         articleDao.getArticles().observeOnce {
             assertEquals(it.size, articles.size)
@@ -70,7 +70,7 @@ class ArticleDaoTest {
 
     @Test
     @Throws(Exception::class)
-    fun deleteArticles() = runBlocking {
+    fun testDeleteArticlesOperation() = runBlocking {
         // Before testing the delete operation, verify that the DB indeed contains the articles.
         articleDao.getArticles().observeOnce {
             assertEquals(it.size, articles.size)
@@ -85,7 +85,7 @@ class ArticleDaoTest {
 
     @Test
     @Throws(Exception::class)
-    fun getArticlesByType() = runBlocking {
+    fun testGetArticlesByTypeOperation() = runBlocking {
         // Verify that the DB returns only the articles of the desired type.
         articleDao.getArticlesByType("video").observeOnce {
             assertEquals(it.size, 1)
