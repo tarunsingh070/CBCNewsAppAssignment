@@ -7,11 +7,13 @@ import org.koin.android.ext.koin.androidApplication
 import org.koin.dsl.module
 
 val helperModule = module {
-    factory { NetworkRequest.Builder()
-        .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
-        .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
-        .addTransportType(NetworkCapabilities.TRANSPORT_CELLULAR)
-        .build() }
+    factory {
+        NetworkRequest.Builder()
+            .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+            .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
+            .addTransportType(NetworkCapabilities.TRANSPORT_CELLULAR)
+            .build()
+    }
 
     single { androidApplication().getSystemService(ConnectivityManager::class.java) as ConnectivityManager }
 }

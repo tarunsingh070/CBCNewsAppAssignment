@@ -18,5 +18,6 @@ object Converters {
 
     @JvmStatic
     @TypeConverter
-    fun typeAttributesToJson(typeAttributes: TypeAttributes?): String = Gson().toJson(typeAttributes)
+    fun typeAttributesToJson(typeAttributes: TypeAttributes?): String =
+        Gson().toJson(typeAttributes)
 }

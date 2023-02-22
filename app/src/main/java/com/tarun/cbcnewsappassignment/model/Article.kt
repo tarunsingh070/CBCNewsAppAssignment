@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
 /**
- * Article represents a news article fetched from the CBC API.
+ * Article represents a news article fetched from the CBCNews API.
  */
 @Entity(tableName = "article_table")
 data class Article(

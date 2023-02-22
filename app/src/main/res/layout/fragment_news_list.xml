@@ -41,5 +41,6 @@
         android:padding="12dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:background="@android:color/holo_red_dark"/>
+        android:background="@android:color/holo_red_dark"
+        android:visibility="gone"/>
 </RelativeLayout>

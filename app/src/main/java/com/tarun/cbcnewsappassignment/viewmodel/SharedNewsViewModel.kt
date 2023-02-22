@@ -47,8 +47,7 @@ class SharedNewsViewModel : ViewModel(), KoinComponent {
      * This method gets called when a user has reached the end of list while scrolling.
      */
     fun userReachedEndOfList() {
-        page++
-        fetchArticles(page)
+        fetchArticles(page++)
     }
 
     /**
@@ -63,6 +62,7 @@ class SharedNewsViewModel : ViewModel(), KoinComponent {
      */
     fun errorMessageTapped() {
         reloadArticles()
+        // Reset the error message value.
         _errorMsg.value = null
     }
 

@@ -6,7 +6,7 @@ import androidx.room.TypeConverters
 import com.tarun.cbcnewsappassignment.model.Article
 
 /**
- * The main [RoomDatabase] class used to create a database for storing Articles.
+ * The main [RoomDatabase] class used to create a database instance for storing Articles.
  */
 @Database(entities = [Article::class], version = 1)
 @TypeConverters(Converters::class)

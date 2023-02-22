@@ -54,6 +54,9 @@ class NewsActivity : AppCompatActivity() {
             .replace(R.id.container, fragment)
             .commitNow()
 
+    /**
+     * Observe the network connectivity status to take appropriate actions.
+     */
     private fun observeNetworkConnectivityStatus() {
         viewModel.isNetworkConnectivityAvailable.observe(this) {
             // Show/hide offline view based on network connection status.

@@ -83,10 +83,10 @@ class NewsListFragment : Fragment() {
 
     /**
      * This method monitors the user's scrolling in order to load more data when user reaches
-     * the end of the list.
+     * the bottom of the list.
      */
     private fun monitorListScroll() {
-        ui.nestedScrollView.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY -> // on scroll change we are checking when users scroll as bottom.
+        ui.nestedScrollView.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
             val nestedScrollView = v as NestedScrollView
             if (scrollY == nestedScrollView.getChildAt(0).measuredHeight - nestedScrollView.measuredHeight) {
                 viewModel.userReachedEndOfList()

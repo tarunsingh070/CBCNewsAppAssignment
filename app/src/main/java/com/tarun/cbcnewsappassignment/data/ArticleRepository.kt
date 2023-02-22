@@ -16,7 +16,7 @@ class ArticleRepository : KoinComponent {
 
     private val articleDao: ArticleDao by inject()
 
-    // Keep 3 de-coupled article lists based on the type for the independent operation of the
+    // Keep 3 de-coupled article lists based on the article type for the independent operation of the
     // 3 fragments showing the filtered articles.
     val articles: LiveData<List<Article>> by lazy { articleDao.getArticles() }
     val storyArticles: LiveData<List<Article>> by lazy { articleDao.getArticlesByType(Article.ArticleType.STORY.type) }
@@ -29,10 +29,10 @@ class ArticleRepository : KoinComponent {
     suspend fun fetchArticles(page: Int = 1) {
         try {
             val result = withTimeout(10_000) {
-                    apiService.fetchNewsArticles(page)
+                apiService.fetchNewsArticles(page)
             }
 
-            // Save articles to the Database
+            // Save articles list to the Database.
             result.let { articleDao.insert(it) }
         } catch (error: Throwable) {
             throw FetchArticlesError("Unable to fetch articles.", error)
@@ -47,4 +47,7 @@ class ArticleRepository : KoinComponent {
     }
 }
 
+/**
+ * A Throwable class containing the details of the error occurred while fetching the articles.
+ */
 class FetchArticlesError(message: String, cause: Throwable) : Throwable(message, cause)
